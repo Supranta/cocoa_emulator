@@ -1,0 +1,19 @@
+io:
+    savedir: lsst_y1_data/final_runs/baryon_scenarios/bahamas/
+    cosmology_yaml_file: /home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/template_yamls/mcmc/MCMC_W_BARYONS.yaml
+    cocoa_yaml_file: /home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/likelihood/params_cosmo_ia_dz.yaml
+    
+lhs:
+    N_samples: 9600
+    
+emulator:
+    CHI_SQ_CUT: 8e+4
+    emu_type: nn
+    N_resample: 9600
+    batch_size: 32
+    n_epochs: 50
+    
+sampling:
+    N_MCMC: 12000
+    N_BURNIN: 6000
+    N_WALKERS: 192
