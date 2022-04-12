@@ -1,9 +1,13 @@
 io:
     savedir: output/nn_emu/ 
-    #cosmology_yaml_file: /home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/template_yamls/mcmc/MCMC_W_BARYONS.yaml
     cosmology_yaml_file: configs/cocoa_configs/MCMC_W_BARYONS.yaml
-    #cocoa_yaml_file: /home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/likelihood/params_cosmo_ia_dz.yaml
     cocoa_yaml_file: configs/cocoa_configs/params_cosmo_ia_dz.yaml
+
+data:
+    cov: data/cov_lsst_y1
+    dv: data/lsst_y1_data_fid
+    scalecut_mask: data/lsst_3x2_baryon.mask
+
 lhs:
     N_samples: 9600
     

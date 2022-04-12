@@ -3,26 +3,17 @@ import numpy as np
 import torch
 
 class LSST_3x2(GaussianLikelihood):
-    def __init__(self, N_DIM, config_args_io, scale_cut_scenario=None, baryon_scenario=None):
-        self.cov_path = '/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/data/cov_lsst_y1'
-        self.dv_fid_path  = '/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/data/lsst_y1_data_fid'
-        if baryon_scenario is not None:
-            self.dv_path  = '/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/data/lsst_y1_'+baryon_scenario
-        else:
-            self.dv_path = self.dv_fid_path
-        #self.dv_path  = '/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/data/lsst_y1_dv_illustris'
-        if scale_cut_scenario is None:
-            self.mask_path = '/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/data/lsst_3x2_baryon.mask'
-            #self.mask_path = '/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/data/lsst_3x2_lmax_1500.mask'
-        else:
-            self.mask_path = '/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/data/scale_cut_scenarios/lsst_3x2_scenario_%d.mask'%(scale_cut_scenario)
-
-        self.mask_3x2 = np.loadtxt(self.mask_path)[:,1].astype(bool)
+    def __init__(self, N_DIM, config_args_io, cov_path, dv_path, scalecut_mask_path):
+        self.cov_path = cov_path
+        self.dv_path  = dv_path
+        self.dv_fid_path = self.dv_path 
+        self.scalecut_mask_path = scalecut_mask_path
+        self.mask_3x2 = np.loadtxt(self.scalecut_mask_path)[:,1].astype(bool)
 
         self.bias_fid = np.array([1.24, 1.36, 1.47, 1.60, 1.76])
-        self.bias_mask = np.load('/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/lsst_y1_data/cosmo_ia_dz/dv_grad/bias_mask.npy')
-        self.shear_calib_mask = np.load('/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/lsst_y1_data/cosmo_ia_dz/dv_grad/shear_calib_mask.npy')
-        self.baryon_pca = np.loadtxt('/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/data/pca.txt')
+        self.bias_mask = np.load('data/bias_mask.npy')
+        self.shear_calib_mask = np.load('data/shear_calib_mask.npy')
+        self.baryon_pca = np.loadtxt('data/pca.txt')
 
         cov      = self.get_full_cov()
         masked_cov = cov[self.mask_3x2][:,self.mask_3x2]

@@ -45,6 +45,7 @@ config_args     = config.config_args
 config_args_io  = config_args['io']
 config_args_emu = config_args['emulator']
 config_args_sampling = config_args['sampling']
+config_args_data = config_args['data']
 
 try:
     save_chain = bool(config_args_sampling['save_chain'] == 'true')
@@ -54,7 +55,12 @@ except:
 savedir = config_args_io['savedir']
 
 N_DIM         = 17
-data_model    = LSST_3x2(N_DIM, config_args_io, scale_cut_scenario, baryon_scenario=baryon_scenario)
+
+cov_path = config_args_data['cov']
+dv_path  = config_args_data['dv']
+scalecut_mask_path = config_args_data['scalecut_mask']
+
+data_model    = LSST_3x2(N_DIM, config_args_io, cov_path, dv_path, scalecut_mask_path)
 data_model.emu_type = config_args_emu['emu_type']
 ### =========================================================
 ### =========================================================
@@ -81,9 +87,9 @@ elif(data_model.emu_type=='gp'):
 data_model.emu = emu
 
 bias_fid = np.array([1.24, 1.36, 1.47, 1.60, 1.76])
-bias_mask        = np.load('/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/lsst_y1_data/cosmo_ia_dz/dv_grad/bias_mask.npy')
-shear_calib_mask = np.load('/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/lsst_y1_data/cosmo_ia_dz/dv_grad/shear_calib_mask.npy')
-baryon_pca = np.loadtxt('/home/u7/ssarmabo/cocoa_emulator/cocoa/Cocoa/projects/lsst_y1/data/pca.txt')
+bias_mask        = np.load('data/bias_mask.npy')
+shear_calib_mask = np.load('data/shear_calib_mask.npy')
+baryon_pca = np.loadtxt('data/pca.txt')
 
 cosmo_prior_lim = np.array([[1.61, 3.91],
                        [0.87, 1.07],
