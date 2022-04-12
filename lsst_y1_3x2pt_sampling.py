@@ -241,17 +241,6 @@ if(tempered_run==1):
         np.save(savedir + 'iteration_%d/logp_emu.npy'%(ITERATION+1), log_p[select_indices])
 else:
     if(planck_prior):
-        np.save(savedir + 'iteration_%d/chain_scalecut_%d_2pcas_ns_prior.npy'%(ITERATION, scale_cut_scenario), emu_sampler.chain[:,N_BURN_IN::N_THIN])
+        np.save(savedir + 'iteration_%d/chain_2pcas_ns_prior.npy'%(ITERATION), emu_sampler.chain[:,N_BURN_IN::N_THIN])
     else:
-        np.save(savedir + 'iteration_%d/chain_scalecut_%d_2pcas.npy'%(ITERATION, scale_cut_scenario), emu_sampler.chain[:,N_BURN_IN::N_THIN])
-    #np.save('output/lsst_y1_gp/posteriors/chain_iter%d.npy'%(ITERATION), emu_sampler.chain)
-    #np.save('output/lsst_y1_gp/posteriors/posterior_iter4.npy', emu_samples)
-end_time = time.time()
-"""
-if(tempered_run==1):
-    task = ' training point acquisition '
-else:        
-    task = ' sampling '
-with open(savedir + '/iteration_%d/timing.txt'%(ITERATION), 'a') as f:
-        f.write('Time taken for ' + task + ': %2.2f s\n'%(end_time - start_time))   
-"""
+        np.save(savedir + 'iteration_%d/chain_2pcas.npy'%(ITERATION), emu_sampler.chain[:,N_BURN_IN::N_THIN])
